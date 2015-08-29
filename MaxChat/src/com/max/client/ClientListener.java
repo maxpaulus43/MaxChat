@@ -10,7 +10,7 @@ public class ClientListener implements Runnable {
 	private Client client;
 	private Socket s;
 	
-	static boolean connected = true;
+	boolean connected = true;
 
 	public ClientListener(Client client, Socket s) {
 		this.client = client;
@@ -28,15 +28,15 @@ public class ClientListener implements Runnable {
 				client.writeToScreen(input);
 			}
 			
+			s.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
 	}
 	
-	public static void disconnect() {
+	public void disconnect() {
 		connected = false;
 		System.out.println("ClientListener: disconnected");
 	}

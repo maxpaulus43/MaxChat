@@ -26,7 +26,7 @@ public class ServerListener implements Runnable{
 			String input;
 			while((input = in.nextLine()) != null) {
 				switch(input) {
-					//console commands go here
+					// TODO console commands go here
 				}
 				
 				

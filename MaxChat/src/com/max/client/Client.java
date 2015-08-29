@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,7 +31,6 @@ public class Client extends JFrame {
 	private Client frame;
 
 	private Socket clientSocket;
-	private Scanner in;
 	private PrintWriter out;
 	
 	private JTextField inputTextField;
@@ -56,7 +54,9 @@ public class Client extends JFrame {
 		JMenuItem mntmDisconnect = new JMenuItem("Disconnect");
 		mntmDisconnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				
+				// TODO more disconnect stuff
+				
 				frame.dispose();
 				LoginWindow.getLoginWindow().setVisible(true);
 				
@@ -72,8 +72,7 @@ public class Client extends JFrame {
 		
 		this.host = hostName;
 		this.port = Integer.parseInt(port);
-		
-
+	
 		ChatServer.create(this.host, this.port);
 	
 		connectToServer();
@@ -119,7 +118,6 @@ public class Client extends JFrame {
 		try {
 			clientSocket = new Socket(InetAddress.getByName(this.host), this.port);
 
-			
 			//create a new thread to listen to any incoming messages
 			new Thread(new ClientListener(this, clientSocket)).start();
 			
