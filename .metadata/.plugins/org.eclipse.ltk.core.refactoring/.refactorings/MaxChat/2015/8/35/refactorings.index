@@ -1,0 +1,9 @@
+1440703479929	Delete element
+1440703496285	Delete element
+1440703498346	Delete element
+1440703771640	Rename type 'ChatWindow'
+1440706733969	Rename field 'ip'
+1440707585629	Encapsulate field 'numClients'
+1440707778428	Rename compilation unit 'ChatThread.java'
+1440709279368	Rename type 'ListenThread'
+1440808104166	Rename field 'textFieldIP'

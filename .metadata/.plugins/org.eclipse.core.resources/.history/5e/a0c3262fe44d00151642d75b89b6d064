@@ -1,0 +1,84 @@
+package com.max.server;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.util.ArrayList;
+
+import com.max.client.ClientListener;
+
+public class ChatServer {
+	private ArrayList<Socket> clients;
+	public ServerSocket ss;
+	private static ChatServer instance;
+	
+	private String host;
+	private int port;
+	
+	public static int numClients = 0;
+	
+	private ChatServer(String host, int port) throws IOException{
+		
+		clients = new ArrayList<Socket>();
+		
+		this.host = host;
+		this.port = port;
+		
+		ss = new ServerSocket();
+		ss.bind(new InetSocketAddress(this.host, this.port));
+		
+		System.out.println("Server: Created on " + ss.getInetAddress());
+
+		Thread listen = new Thread(new ConnectionListener(this));
+		listen.start();	
+		
+		instance = this;
+		
+	}
+	
+	public void create(String hostName, int portNum) {
+		if (instance != null) {
+			ChatServer();
+		}
+	}
+	
+	public static ChatServer getInstance() {
+		return instance;	
+	}
+	
+	public void sendToClients(String message) {
+		for (Socket client : clients) {
+			try {
+				PrintWriter out;
+				out = new PrintWriter(client.getOutputStream(), true);
+				out.println(message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public void closeServer() throws IOException {
+		ss.close();
+	}
+	
+	public void addClient(Socket client) {
+		clients.add(client);
+		numClients++;
+		
+		Thread clientListener = new Thread(new ClientListener(this, client));
+		clientListener.start();
+		
+		//listen again
+		Thread listen = new Thread(new ConnectionListener(this));
+		listen.start();
+	}
+	
+	public void removeClient(Socket client) {
+		clients.remove(client);	
+	}
+}

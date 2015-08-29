@@ -1,0 +1,20 @@
+package com.max.server;
+
+import java.net.InetSocketAddress;
+
+public class ListenThread implements Runnable {
+
+	InetSocketAddress address;
+	
+	public ChatThread(InetSocketAddress address) {
+		this.address = address;
+		
+	}
+	
+	@Override
+	public void run() {
+		
+		
+	}
+
+}

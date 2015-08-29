@@ -1,0 +1,23 @@
+package com.max.client;
+
+import java.net.Socket;
+
+import com.max.server.ChatServer;
+
+public class ClientListener implements Runnable{
+
+	ChatServer server;
+	Socket client;
+	
+	public ClientListener(ChatServer server, Socket client) {
+		this.server = server;
+		this.client = client;
+	}
+	
+	@Override
+	public void run() {
+		
+		
+	}
+
+}

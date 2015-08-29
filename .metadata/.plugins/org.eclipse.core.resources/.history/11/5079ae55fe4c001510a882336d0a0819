@@ -1,0 +1,36 @@
+package com.max.client;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+import com.max.server.ChatServer;
+
+public class ClientListener implements Runnable{
+
+	ChatServer server;
+	Socket client;
+	
+	public ClientListener(ChatServer server, Socket client) {
+		this.server = server;
+		this.client = client;
+	}
+	
+	@Override
+	public void run() {
+		try {
+			InputStream in = client.getInputStream();
+			PrintWriter out = new PrintWriter(client.getOutputStream());
+			
+			out.println("Welcome to max chat!");
+			
+			while
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}

@@ -1,0 +1,20 @@
+INDEX VERSION 1.127+E:\Users\Max\Documents\GitHub\MaxChat\.metadata\.plugins\org.eclipse.jdt.core
+2895566880.index
+1543189059.index
+4182013196.index
+376413508.index
+2230302830.index
+923726891.index
+1638998244.index
+1779189168.index
+1768132946.index
+568622039.index
+2416814919.index
+2546698666.index
+932425828.index
+1281284036.index
+1758945444.index
+2654697599.index
+3898983965.index
+3171082936.index
+3036884490.index

@@ -1,0 +1,13 @@
+package com.max.client;
+
+public class ClientListener implements Runnable{
+
+	
+	
+	@Override
+	public void run() {
+		
+		
+	}
+
+}
