@@ -1,11 +1,15 @@
-package com.max.window;
+package com.max.client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.max.server.ChatServer;
+import com.max.window.LoginWindow;
 
 @SuppressWarnings("serial")
 public class Client extends JFrame {
@@ -27,17 +32,20 @@ public class Client extends JFrame {
 	private Client frame;
 
 	private Socket clientSocket;
+	private Scanner in;
+	private PrintWriter out;
 	
 	private JTextField inputTextField;
+	private JTextArea screen;
 
 	
 	/**
 	 * Create the frame.
 	 */
-	public Client(String ip, String port, String username) {
+	public Client(String hostName, String port, String username) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 503, 421);
-		this.setTitle("MaxChat | username: " + username + " | IP: " + ip + " | Port: " + port);
+		this.setTitle("MaxChat | username: " + username + " | IP: " + hostName + " | Port: " + port);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -62,39 +70,59 @@ public class Client extends JFrame {
 		
 		
 		
-		this.host = ip;
+		this.host = hostName;
 		this.port = Integer.parseInt(port);
 		
-		try {
-			ChatServer.create(this.host, this.port);
-		} catch (IOException e) { 
-			System.out.println("Client: This host and port are running");
-		}
-		
+
+		ChatServer.create(this.host, this.port);
+	
 		connectToServer();
 		
 		frame = this;
 		getContentPane().setLayout(null);
 		
 		inputTextField = new JTextField();
+		inputTextField.setText("Chat here...");
+		inputTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				if (inputTextField.getText().equals("Chat here..."));
+				{
+					inputTextField.setText("");
+				}
+			}
+		});
 		inputTextField.setBounds(10, 330, 368, 20);
 		getContentPane().add(inputTextField);
 		inputTextField.setColumns(10);
 		
 		JButton sendButton = new JButton("Send");
+		sendButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!(inputTextField.getText().equals("Chat here...")) &&
+						(inputTextField.getText().length() > 0));
+				send(inputTextField.getText());
+			}
+		});
 		sendButton.setBounds(388, 329, 89, 23);
 		getContentPane().add(sendButton);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(10, 11, 467, 308);
-		getContentPane().add(textArea);
+		this.screen = new JTextArea();
+		screen.setLineWrap(true);
+		screen.setEditable(false);
+		screen.setBounds(10, 11, 467, 308);
+		getContentPane().add(screen);
 	}
-
 
 	private void connectToServer() {
 		
 		try {
 			clientSocket = new Socket(InetAddress.getByName(this.host), this.port);
+
+			
+			//create a new thread to listen to any incoming messages
+			new Thread(new ClientListener(this, clientSocket)).start();
+			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -102,5 +130,13 @@ public class Client extends JFrame {
 		}
 
 		System.out.println("Client: Connected to "+ clientSocket.getInetAddress());	
+	}
+	
+	public void send(String message) {
+		out.println(username + ": " + message);
+	}
+
+	public void writeToScreen(String input) {
+		screen.setText(screen.getText() + "\n" + input);
 	}
 }

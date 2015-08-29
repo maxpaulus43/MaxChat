@@ -5,34 +5,40 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-import com.max.server.ChatServer;
+public class ClientListener implements Runnable {
 
-public class ClientListener implements Runnable{
-
-	ChatServer server;
-	Socket client;
+	private Client client;
+	private Socket s;
 	
-	public ClientListener(ChatServer server, Socket client) {
-		this.server = server;
+	static boolean connected = true;
+
+	public ClientListener(Client client, Socket s) {
 		this.client = client;
+		this.s = s;
 	}
-	
+
+
 	@Override
 	public void run() {
 		try {
-			Scanner in = new Scanner(client.getInputStream());
-			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+			Scanner in = new Scanner(s.getInputStream());
 			
-			out.println("Welcome to max chat!");
-			
-			while(true) {
-				String input = in.nextLine();
-				server.sendToClients(input);		
+			String input;
+			while(connected && ((input = in.nextLine()) != null)) {
+				client.writeToScreen(input);
 			}
+			
 		} catch (IOException e) {
-			System.out.println("ClientListener: Client Disconnected.");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
+		
+	}
+	
+	public static void disconnect() {
+		connected = false;
+		System.out.println("ClientListener: disconnected");
 	}
 
 }

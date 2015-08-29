@@ -8,21 +8,28 @@ public class ConnectionListener implements Runnable {
 	ChatServer server;
 	String clientIP;
 	
+	private static boolean listening = true;
+	
 	public ConnectionListener(ChatServer server) {
-		this.server = server;
-		
+		this.server = server;	
 	}
 	
 	@Override
 	public void run() {
 			try {
-				Socket client = server.ss.accept();
-				clientIP = client.getInetAddress().toString();
-				System.out.println("ConnectionListener: Connection established!");
-				server.addClient(client);			
+				while(listening) {
+					Socket client = server.accept();
+					System.out.println("ConnectionListener: Connection established with " + client.getInetAddress());
+					server.addClient(client);			
+				}
 			} catch (IOException e) { //socket is closed 
 				System.out.println("ConnectionLister Error");
 			}
+	}
+	
+	public static void stopListening() {
+		listening = false;
+		System.out.println("ConnectionListener: stopped listening");
 	}
 
 }

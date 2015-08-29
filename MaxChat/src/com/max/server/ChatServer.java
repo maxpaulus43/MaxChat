@@ -7,13 +7,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import com.max.client.ClientListener;
-
 public class ChatServer {
-	private ArrayList<Socket> clients;
-	public ServerSocket ss;
-	private static ChatServer instance;
 	
+	private ArrayList<Socket> clients;
+	private ServerSocket ss;
+	private static ChatServer instance;	
 	private String host;
 	private int port;
 	
@@ -29,16 +27,19 @@ public class ChatServer {
 		
 		System.out.println("Server: Created on " + ss.getInetAddress());
 
-		Thread listen = new Thread(new ConnectionListener(this));
-		listen.start();	
+		new Thread(new ConnectionListener(this)).start();
 		
 		instance = this;
 		
 	}
 	
-	public static void create(String host, int port) throws IOException{
-		if (instance == null) {
-			ChatServer.instance = new ChatServer(host, port);
+	public static void create(String host, int port){
+		try {
+			if (instance == null) {
+				ChatServer.instance = new ChatServer(host, port);
+			}
+		} catch (IOException e) {
+			System.out.println("Server: problem creating server.");
 		}
 	}
 	
@@ -59,8 +60,12 @@ public class ChatServer {
 		
 	}
 	
+	public Socket accept() throws IOException {
+		return ss.accept();
+	}
+	
 	public void closeServer() throws IOException {
-		if (numClients() < 0) {
+		if (clients.size() < 0) {
 			ss.close();
 		}
 		else {
@@ -71,19 +76,7 @@ public class ChatServer {
 	public void addClient(Socket client) {
 		clients.add(client);
 		
-		Thread clientListener = new Thread(new ClientListener(this, client));
+		Thread clientListener = new Thread(new ServerListener(this, client));
 		clientListener.start();
-		
-		//listen again
-		Thread listen = new Thread(new ConnectionListener(this));
-		listen.start();
-	}
-	
-	public void removeClient(Socket client) {
-		clients.remove(client);	
-	}
-	
-	public int numClients() {
-		return clients.size();
 	}
 }
