@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 
 import com.max.server.ChatServer;
 import com.max.window.LoginWindow;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
 public class Client extends JFrame {
@@ -69,7 +71,7 @@ public class Client extends JFrame {
 		mnFile.add(mntmChangeUsername);
 		
 		
-		
+		this.username = username;
 		this.host = hostName;
 		this.port = Integer.parseInt(port);
 	
@@ -81,6 +83,17 @@ public class Client extends JFrame {
 		getContentPane().setLayout(null);
 		
 		inputTextField = new JTextField();
+		inputTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER){
+					if (!(inputTextField.getText().equals("Chat here...")) &&
+							(inputTextField.getText().length() > 0));
+					send(inputTextField.getText());
+					inputTextField.setText("");
+				}
+			}
+		});
 		inputTextField.setText("Chat here...");
 		inputTextField.addFocusListener(new FocusAdapter() {
 			@Override
@@ -101,6 +114,7 @@ public class Client extends JFrame {
 				if (!(inputTextField.getText().equals("Chat here...")) &&
 						(inputTextField.getText().length() > 0));
 				send(inputTextField.getText());
+				inputTextField.setText("");
 			}
 		});
 		sendButton.setBounds(388, 329, 89, 23);
@@ -117,6 +131,7 @@ public class Client extends JFrame {
 		
 		try {
 			clientSocket = new Socket(InetAddress.getByName(this.host), this.port);
+			out = new PrintWriter(clientSocket.getOutputStream(), true);
 
 			//create a new thread to listen to any incoming messages
 			new Thread(new ClientListener(this, clientSocket)).start();
