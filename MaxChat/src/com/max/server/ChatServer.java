@@ -76,7 +76,6 @@ public class ChatServer {
 	public void addClient(Socket client) {
 		clients.add(client);
 		
-		Thread clientListener = new Thread(new ServerListener(this, client));
-		clientListener.start();
+		new Thread(new ServerListener(this, client)).start();
 	}
 }
