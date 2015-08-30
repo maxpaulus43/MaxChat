@@ -34,7 +34,6 @@ public class Client extends JFrame {
 
 	private Socket clientSocket;
 	private PrintWriter out;
-	private ClientListener cl;
 	
 	private JTextField inputTextField;
 	private JTextArea screen;
@@ -59,8 +58,14 @@ public class Client extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				// TODO more disconnect stuff
-				//cl.disconnect();
-				
+				out.println(username + " disconnected from server...");
+				try {
+					System.out.println("Client: Disconnecting from " + host);
+					clientSocket.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				frame.dispose();
 				LoginWindow.getLoginWindow().setVisible(true);
 				
@@ -138,8 +143,7 @@ public class Client extends JFrame {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 
 			//create a new thread to listen to any incoming messages		
-			cl = new ClientListener(this, clientSocket);
-			new Thread(cl).start();
+			new Thread(new ClientListener(this, clientSocket)).start();
 			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

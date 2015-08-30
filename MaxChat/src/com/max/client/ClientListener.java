@@ -9,8 +9,6 @@ public class ClientListener implements Runnable {
 
 	private Client client;
 	private Socket s;
-	
-	boolean connected = true;
 
 	public ClientListener(Client client, Socket s) {
 		this.client = client;
@@ -24,7 +22,7 @@ public class ClientListener implements Runnable {
 			Scanner in = new Scanner(s.getInputStream());
 			
 			String input;
-			while(connected && ((input = in.nextLine()) != null)) {
+			while(((input = in.nextLine()) != null)) {
 				client.writeToScreen(input);
 			}
 			
@@ -36,10 +34,4 @@ public class ClientListener implements Runnable {
 		
 		
 	}
-	
-	public void disconnect() {
-		connected = false;
-		//System.out.println("ClientListener: disconnected");
-	}
-
 }
