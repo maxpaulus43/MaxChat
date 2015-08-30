@@ -57,8 +57,8 @@ public class ChatServer {
 				PrintWriter out;
 				out = new PrintWriter(client.getOutputStream(), true);
 				out.println(message);
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				System.out.println("Server: problem sending to all clients");
 			}
 		}
 		
