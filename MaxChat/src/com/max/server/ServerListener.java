@@ -25,10 +25,10 @@ public class ServerListener implements Runnable{
 			
 			String input;
 			while((input = in.nextLine()) != null) {
-				switch(input) {
-					// TODO console commands go here
-				}
-	
+				if (input.toLowerCase().equals("disconnect")) {
+					System.out.println("Someone wants to disconnect");
+				} /* TODO more console commands*/
+				
 				server.sendToClients(input);		
 			}
 		} catch (IOException e) {System.out.println("ServerListener error.");}
