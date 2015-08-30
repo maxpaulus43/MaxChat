@@ -28,8 +28,7 @@ public class ServerListener implements Runnable{
 				switch(input) {
 					// TODO console commands go here
 				}
-				
-				
+	
 				server.sendToClients(input);		
 			}
 		} catch (IOException e) {System.out.println("ServerListener error.");}

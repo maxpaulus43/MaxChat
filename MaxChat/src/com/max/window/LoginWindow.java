@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.max.client.Client;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
 public class LoginWindow extends JFrame {
@@ -31,8 +33,8 @@ public class LoginWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frame = LoginWindow.getLoginWindow();
-					frame.setVisible(true);
+					setFrame(LoginWindow.getLoginWindow());
+					getFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -44,8 +46,8 @@ public class LoginWindow extends JFrame {
 	 * Returns the singleton instance of the login window.
 	 */
 	public static LoginWindow getLoginWindow() {
-		if (frame != null) {
-			return frame;
+		if (getFrame() != null) {
+			return getFrame();
 		} else
 			return new LoginWindow();
 	}
@@ -85,7 +87,7 @@ public class LoginWindow extends JFrame {
 								|| textFieldUsername.getText().isEmpty())) {
 							try {
 								
-								LoginWindow.frame.setVisible(false);
+								LoginWindow.getFrame().setVisible(false);
 								Client frame = new Client(textFieldHost.getText(), textFieldPort.getText(), textFieldUsername.getText());
 								frame.setVisible(true);
 								
@@ -121,6 +123,37 @@ public class LoginWindow extends JFrame {
 		contentPane.add(textFieldPort);
 
 		textFieldUsername = new JTextField();
+		textFieldUsername.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent k) {
+				if (k.getKeyCode() == KeyEvent.VK_ENTER) {
+					try {
+						int portNum = Integer.parseInt(textFieldPort.getText());
+						if (portNum > 45151 && portNum < 60000) {
+							if (!(textFieldHost.getText().isEmpty()
+									|| textFieldPort.getText().isEmpty() 
+									|| textFieldUsername.getText().isEmpty())) {
+								try {
+									
+									LoginWindow.getFrame().setVisible(false);
+									Client frame = new Client(textFieldHost.getText(), textFieldPort.getText(), textFieldUsername.getText());
+									frame.setVisible(true);
+									
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						} else JOptionPane.showMessageDialog(null,
+								"Port must be with range 45151-60000");
+						
+					} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(null,
+								"Port field must be a number!");
+					}
+					
+				}
+			}
+		});
 		textFieldUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldUsername.setColumns(10);
 		textFieldUsername.setBounds(56, 148, 158, 20);
@@ -130,5 +163,13 @@ public class LoginWindow extends JFrame {
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblUsername.setBounds(89, 123, 86, 14);
 		contentPane.add(lblUsername);
+	}
+
+	public static LoginWindow getFrame() {
+		return frame;
+	}
+
+	public static void setFrame(LoginWindow frame) {
+		LoginWindow.frame = frame;
 	}
 }

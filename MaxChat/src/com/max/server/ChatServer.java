@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class ChatServer {
@@ -38,8 +39,11 @@ public class ChatServer {
 			if (instance == null) {
 				ChatServer.instance = new ChatServer(host, port);
 			}
-		} catch (IOException e) {
-			System.out.println("Server: problem creating server.");
+		} catch (UnknownHostException e) {
+			System.out.println("Host doesn't exist. Exit and retry.");
+		}
+		catch (IOException e) {
+			System.out.println("Server: found server");
 		}
 	}
 	

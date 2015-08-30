@@ -28,7 +28,8 @@ public class ClientListener implements Runnable {
 				client.writeToScreen(input);
 			}
 			
-			s.close();
+			s.close();//closes the socket once disconnected.
+			System.out.println("Socket closed...");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -38,7 +39,7 @@ public class ClientListener implements Runnable {
 	
 	public void disconnect() {
 		connected = false;
-		System.out.println("ClientListener: disconnected");
+		//System.out.println("ClientListener: disconnected");
 	}
 
 }

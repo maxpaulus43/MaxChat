@@ -34,6 +34,7 @@ public class Client extends JFrame {
 
 	private Socket clientSocket;
 	private PrintWriter out;
+	private ClientListener cl;
 	
 	private JTextField inputTextField;
 	private JTextArea screen;
@@ -58,6 +59,7 @@ public class Client extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				// TODO more disconnect stuff
+				//cl.disconnect();
 				
 				frame.dispose();
 				LoginWindow.getLoginWindow().setVisible(true);
@@ -88,9 +90,10 @@ public class Client extends JFrame {
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER){
 					if (!(inputTextField.getText().equals("Chat here...")) &&
-							(inputTextField.getText().length() > 0));
-					send(inputTextField.getText());
-					inputTextField.setText("");
+							(inputTextField.getText().length() > 0)) {
+						send(inputTextField.getText());
+						inputTextField.setText("");
+					}
 				}
 			}
 		});
@@ -112,9 +115,10 @@ public class Client extends JFrame {
 		sendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!(inputTextField.getText().equals("Chat here...")) &&
-						(inputTextField.getText().length() > 0));
-				send(inputTextField.getText());
-				inputTextField.setText("");
+						(inputTextField.getText().length() > 0)) {
+					send(inputTextField.getText());
+					inputTextField.setText("");
+				}
 			}
 		});
 		sendButton.setBounds(388, 329, 89, 23);
@@ -133,8 +137,9 @@ public class Client extends JFrame {
 			clientSocket = new Socket(InetAddress.getByName(this.host), this.port);
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-			//create a new thread to listen to any incoming messages
-			new Thread(new ClientListener(this, clientSocket)).start();
+			//create a new thread to listen to any incoming messages		
+			cl = new ClientListener(this, clientSocket);
+			new Thread(cl).start();
 			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
