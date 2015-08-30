@@ -1,8 +1,8 @@
 package com.max.client;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ClientListener implements Runnable {
@@ -28,6 +28,8 @@ public class ClientListener implements Runnable {
 			
 		} catch (IOException e) {
 			System.out.println("Client Listener error.");
+		} catch (NoSuchElementException e) {
+			System.out.println("ClientListener: client closed");
 		}
 		
 		

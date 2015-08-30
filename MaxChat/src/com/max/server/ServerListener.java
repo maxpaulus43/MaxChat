@@ -3,6 +3,7 @@ package com.max.server;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ServerListener implements Runnable{
@@ -24,14 +25,14 @@ public class ServerListener implements Runnable{
 			out.println("Welcome to max chat!");
 			
 			String input;
-			while((input = in.nextLine()) != null) {
-				if (input.toLowerCase().equals("disconnect")) {
-					System.out.println("Someone wants to disconnect");
-				} /* TODO more console commands*/
-				
+			while((input = in.nextLine()) != null) {				
 				server.sendToClients(input);		
 			}
-		} catch (IOException e) {System.out.println("ServerListener error.");}
+		} catch (IOException e) {
+			System.out.println("ServerListener error");
+		} catch (NoSuchElementException e) {
+			System.out.println("Server: " + client.getInetAddress() + " disconnected");
+		}
 		
 	}
 
