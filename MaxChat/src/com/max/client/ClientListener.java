@@ -26,10 +26,8 @@ public class ClientListener implements Runnable {
 				client.writeToScreen(input);
 			}
 			
-			s.close();//closes the socket once disconnected.
-			System.out.println("Socket closed...");
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Client Listener error.");
 		}
 		
 		
