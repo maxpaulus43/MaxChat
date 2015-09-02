@@ -34,7 +34,7 @@ public class ClientThread implements Runnable {
 				s.close();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			}
 		}
 		
