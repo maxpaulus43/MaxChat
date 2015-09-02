@@ -50,9 +50,10 @@ public class ChatServer {
 		} catch (UnknownHostException e) {
 			System.out.println("Server: host doesn't exist.");
 			return false;
-		} catch (BindException e1) {
-			System.out.println("Server: can't bind to that host.");
-			return false;
+		} catch (BindException e) {
+			if (e.getMessage().startsWith("Cannot assign")){
+				return false;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
