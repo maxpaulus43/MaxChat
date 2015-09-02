@@ -51,9 +51,7 @@ public class ChatServer {
 			System.out.println("Server: host doesn't exist.");
 			return false;
 		} catch (BindException e) {
-			if (e.getMessage().startsWith("Cannot assign")){
-				return false; 
-			}
+			//TODO still have to fix wrong-hostname stuff
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
