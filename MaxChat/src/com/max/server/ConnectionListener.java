@@ -20,7 +20,7 @@ public class ConnectionListener implements Runnable {
 				while(listening) {
 					Socket client = server.accept();
 					System.out.println("Server->ConnectionListener: Connection established with " + client.getInetAddress());
-					server.addClient(client);			
+					ChatServer.addClient(client);			
 				}
 			} catch (IOException e) { //socket is closed 
 				System.out.println("ConnectionLister Error");

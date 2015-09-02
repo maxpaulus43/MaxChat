@@ -23,6 +23,7 @@ public class LoginWindow extends JFrame {
 
 	/**
 	 * Launch the application.
+         * 
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -39,6 +40,8 @@ public class LoginWindow extends JFrame {
 
 	/**
 	 * Returns the singleton instance of the login window.
+         * 
+         * @return The singleton instance of the login window
 	 */
 	public static LoginWindow getLoginWindow() {
 		if (frame != null) {

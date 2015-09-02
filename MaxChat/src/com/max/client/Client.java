@@ -27,6 +27,10 @@ import java.awt.event.KeyEvent;
 public class Client extends JFrame {
 	
 	private String host;
+
+    public String getHost() {
+        return host;
+    }
 	private int port;
 	
 	private String username;
@@ -41,6 +45,10 @@ public class Client extends JFrame {
 	
 	/**
 	 * Create the frame.
+         * 
+         * @param hostName the ip address/ host name for the chat server
+         * @param port the port number for the program
+         * @param username the username that the user takes on
 	 */
 	public Client(String hostName, String port, String username) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,14 +67,9 @@ public class Client extends JFrame {
 				
 				// TODO more disconnect stuff
 				out.println(username + " disconnected from server...");
-				try {
-					System.out.println("Client: Disconnecting from " + host);
-					clientSocket.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				frame.dispose();
+                                System.out.println("Client: Disconnecting from " + host);  
+
+				dispose();
 				LoginWindow.getLoginWindow().setVisible(true);
 				
 			}
@@ -86,7 +89,6 @@ public class Client extends JFrame {
 	
 		connectToServer();
 		
-		frame = this;
 		getContentPane().setLayout(null);
 		
 		inputTextField = new JTextField();
@@ -118,6 +120,7 @@ public class Client extends JFrame {
 		
 		JButton sendButton = new JButton("Send");
 		sendButton.addActionListener(new ActionListener() {
+                        @Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (!(inputTextField.getText().equals("Chat here...")) &&
 						(inputTextField.getText().length() > 0)) {
@@ -143,7 +146,7 @@ public class Client extends JFrame {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 
 			//create a new thread to listen to any incoming messages		
-			new Thread(new ClientListener(this, clientSocket)).start();
+			new Thread(new ClientThread(this, clientSocket)).start();
 			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

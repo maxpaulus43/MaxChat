@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import com.max.client.Client;
 
 public class ChatServer {
 	
@@ -47,7 +48,7 @@ public class ChatServer {
 		}
 	}
 	
-	public ChatServer getInstance() {
+	public static ChatServer getInstance() {
 		return ChatServer.instance;
 	}
 	
@@ -68,18 +69,29 @@ public class ChatServer {
 		return ss.accept();
 	}
 	
-	public void closeServer() throws IOException {
-		if (clients.size() < 0) {
-			ss.close();
-		}
-		else {
-			System.out.println("Server: not closing; still have clients.");
-		}
+	private void closeServer() throws IOException {
+            ss.close();
+            System.out.println("Closing Server at " + ss.getInetAddress());
 	}
 	
-	public void addClient(Socket client) {
-		clients.add(client);
+	public static void addClient(Socket client) {
+		instance.clients.add(client);
 		
-		new Thread(new ServerListener(this, client)).start();
+		new Thread(new ServerThread(instance, client)).start();
 	}
+        
+        public static void removeClient(Socket c) {
+            System.out.println("Server: Removing " + c.getInetAddress());
+            instance.clients.remove(c);
+
+            if (instance.clients.size() < 1) {
+                System.out.println("No clients left: closing server.");
+                try {
+                    instance.closeServer();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 }

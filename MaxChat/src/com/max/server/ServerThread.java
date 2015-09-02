@@ -6,12 +6,12 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class ServerListener implements Runnable{
+public class ServerThread implements Runnable{
 
 	ChatServer server;
 	Socket client;
 	
-	public ServerListener(ChatServer server, Socket client) {
+	public ServerThread(ChatServer server, Socket client) {
 		this.server = server;
 		this.client = client;
 	}
@@ -33,6 +33,7 @@ public class ServerListener implements Runnable{
 		} catch (NoSuchElementException e) {
 			System.out.println("Server: " + client.getInetAddress() + 
 					" disconnected");
+                        ChatServer.removeClient(this.client);
 		}
 		
 	}

@@ -5,12 +5,12 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class ClientListener implements Runnable {
+public class ClientThread implements Runnable {
 
 	private Client client;
 	private Socket s;
 
-	public ClientListener(Client client, Socket s) {
+	public ClientThread(Client client, Socket s) {
 		this.client = client;
 		this.s = s;
 	}
@@ -27,9 +27,9 @@ public class ClientListener implements Runnable {
 			}
 			
 		} catch (IOException e) {
-			System.out.println("Client Listener error.");
+			System.out.println("Client Thread error.");
 		} catch (NoSuchElementException e) {
-			System.out.println("ClientListener: client closed");
+			System.out.println("ClientThread: client closed");
 			try {
 				s.close();
 			} catch (IOException e1) {
