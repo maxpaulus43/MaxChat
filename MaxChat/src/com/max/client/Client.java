@@ -151,7 +151,7 @@ public class Client extends JFrame {
 			e.printStackTrace();
 		}
 
-		System.out.println("Client: Connected to "+ clientSocket.getInetAddress());	
+		System.out.println("Client: Connected to "+ clientSocket.getInetAddress());
 	}
 	
 	public void send(String message) {

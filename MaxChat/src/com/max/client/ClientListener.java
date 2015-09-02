@@ -30,6 +30,12 @@ public class ClientListener implements Runnable {
 			System.out.println("Client Listener error.");
 		} catch (NoSuchElementException e) {
 			System.out.println("ClientListener: client closed");
+			try {
+				s.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+			}
 		}
 		
 		

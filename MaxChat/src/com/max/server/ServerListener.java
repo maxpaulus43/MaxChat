@@ -31,7 +31,8 @@ public class ServerListener implements Runnable{
 		} catch (IOException e) {
 			System.out.println("ServerListener error");
 		} catch (NoSuchElementException e) {
-			System.out.println("Server: " + client.getInetAddress() + " disconnected");
+			System.out.println("Server: " + client.getInetAddress() + 
+					" disconnected");
 		}
 		
 	}
