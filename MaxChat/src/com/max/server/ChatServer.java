@@ -35,17 +35,27 @@ public class ChatServer {
 		
 	}
 	
-	public static void create(String host, int port){
+	
+	/**
+	 * Creates a server on the specifid host and port
+	 * @param host the ip address of the host
+	 * @param port the port over which to communicate
+	 * @return True if successful creation/discovery of a server
+	 */
+	public static boolean create(String host, int port){
 		try {
 			if (instance == null) {
 				ChatServer.instance = new ChatServer(host, port);
 			}
 		} catch (UnknownHostException e) {
 			System.out.println("Host doesn't exist. Exit and retry.");
+			return false;
 		}
 		catch (IOException e) {
 			System.out.println("Server: found server");
 		}
+		
+		return true;
 	}
 	
 	public static ChatServer getInstance() {
@@ -70,8 +80,8 @@ public class ChatServer {
 	}
 	
 	private void closeServer() throws IOException {
-            ss.close();
-            System.out.println("Closing Server at " + ss.getInetAddress());
+        ss.close();
+        System.out.println("Closing Server at " + ss.getInetAddress());
 	}
 	
 	public static void addClient(Socket client) {
@@ -83,15 +93,17 @@ public class ChatServer {
         public static void removeClient(Socket c) {
             System.out.println("Server: Removing " + c.getInetAddress());
             instance.clients.remove(c);
-
-            if (instance.clients.size() < 1) {
-                System.out.println("No clients left: closing server.");
-                try {
-                    instance.closeServer();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            
+            try {
+				c.close();
+				if (instance.clients.size() < 1) {
+				    System.out.println("No clients left: closing server.");
+				    instance.closeServer();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
 
 }

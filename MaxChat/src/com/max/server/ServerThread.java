@@ -33,7 +33,7 @@ public class ServerThread implements Runnable{
 		} catch (NoSuchElementException e) {
 			System.out.println("Server: " + client.getInetAddress() + 
 					" disconnected");
-                        ChatServer.removeClient(this.client);
+            ChatServer.removeClient(this.client);
 		}
 		
 	}

@@ -15,7 +15,6 @@ public class ClientThread implements Runnable {
 		this.s = s;
 	}
 
-
 	@Override
 	public void run() {
 		try {
@@ -28,16 +27,6 @@ public class ClientThread implements Runnable {
 			
 		} catch (IOException e) {
 			System.out.println("Client Thread error.");
-		} catch (NoSuchElementException e) {
-			System.out.println("ClientThread: client closed");
-			try {
-				s.close();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
-		
-		
 	}
 }
