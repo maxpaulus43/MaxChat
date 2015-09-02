@@ -52,7 +52,7 @@ public class ChatServer {
 			return false;
 		} catch (BindException e) {
 			if (e.getMessage().startsWith("Cannot assign")){
-				return false;
+				return false; 
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
