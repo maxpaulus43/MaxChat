@@ -29,10 +29,9 @@ public class ServerThread implements Runnable{
 				server.sendToClients(input);		
 			}
 		} catch (IOException e) {
-			System.out.println("ServerListener error");
+			System.out.println("ServerThread error");
 		} catch (NoSuchElementException e) {
-			System.out.println("Server: " + client.getInetAddress() + 
-					" disconnected");
+			System.out.println("ServerThread: " + client.getInetAddress() + " socket closed");
             ChatServer.removeClient(this.client);
 		}
 		

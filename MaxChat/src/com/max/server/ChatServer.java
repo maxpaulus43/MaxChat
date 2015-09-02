@@ -31,10 +31,8 @@ public class ChatServer {
 
 		new Thread(new ConnectionThread(this)).start();
 		
-		instance = this;
-		
+		instance = this;		
 	}
-	
 	
 	/**
 	 * Creates a server on the specifid host and port
@@ -90,20 +88,20 @@ public class ChatServer {
 		new Thread(new ServerThread(instance, client)).start();
 	}
         
-        public static void removeClient(Socket c) {
-            System.out.println("Server: Removing " + c.getInetAddress());
-            instance.clients.remove(c);
-            
-            try {
-				c.close();
-				if (instance.clients.size() < 1) {
-				    System.out.println("No clients left: closing server.");
-				    instance.closeServer();
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+    public static void removeClient(Socket c) {
+        System.out.println("Server: Removing " + c.getInetAddress());
+        instance.clients.remove(c);
+        
+        try {
+			c.close();
+			if (instance.clients.size() < 1) {
+			    System.out.println("No clients left: closing server.");
+			    instance.closeServer();
 			}
-        }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 
 }

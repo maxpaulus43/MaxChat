@@ -26,7 +26,9 @@ public class ClientThread implements Runnable {
 			}
 			
 		} catch (IOException e) {
-			System.out.println("Client Thread error.");
+			System.out.println("ClientThread error.");
+		} catch (NoSuchElementException e) {
+			System.out.println("ClientThread: " + s.getInetAddress() + " socket closed");
 		}
 	}
 }
