@@ -29,7 +29,7 @@ public class ChatServer {
 		
 		System.out.println("Server: Created on " + ss.getInetAddress());
 
-		new Thread(new ConnectionListener(this)).start();
+		new Thread(new ConnectionThread(this)).start();
 		
 		instance = this;
 		

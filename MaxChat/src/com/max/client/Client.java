@@ -66,7 +66,7 @@ public class Client extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				// TODO more disconnect stuff
-				out.println(username + " disconnected from server...");
+				//out.println(username + " disconnected from server...");
                                 System.out.println("Client: Disconnecting from " + host);  
 
 				dispose();

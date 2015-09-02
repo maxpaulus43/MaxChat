@@ -3,14 +3,14 @@ package com.max.server;
 import java.io.IOException;
 import java.net.Socket;
 
-public class ConnectionListener implements Runnable {
+public class ConnectionThread implements Runnable {
 
 	ChatServer server;
 	String clientIP;
 	
 	private static boolean listening = true;
 	
-	public ConnectionListener(ChatServer server) {
+	public ConnectionThread(ChatServer server) {
 		this.server = server;	
 	}
 	
@@ -19,17 +19,17 @@ public class ConnectionListener implements Runnable {
 			try {
 				while(listening) {
 					Socket client = server.accept();
-					System.out.println("Server->ConnectionListener: Connection established with " + client.getInetAddress());
+					System.out.println("ConnectionThread: Connection established with " + client.getInetAddress());
 					ChatServer.addClient(client);			
 				}
 			} catch (IOException e) { //socket is closed 
-				System.out.println("ConnectionLister Error");
+				System.out.println("ConnectionThread Error");
 			}
 	}
 	
 	public static void stopListening() {
 		listening = false;
-		System.out.println("ConnectionListener: stopped listening");
+		System.out.println("ConnectionThread: stopped listening");
 	}
 
 }
