@@ -88,18 +88,6 @@ public class Client extends JFrame {
 		JMenuItem mntmChangeUsername = new JMenuItem("Change Username");
 		mnFile.add(mntmChangeUsername);
 		
-		
-		this.username = username;
-		this.host = hostName;
-		this.port = Integer.parseInt(port);
-	
-		if(ChatServer.create(this.host, this.port)) {
-			connectToServer();
-		}
-		else {
-			dispose();
-		}
-		
 		getContentPane().setLayout(null);
 		
 		inputTextField = new JTextField();
@@ -128,6 +116,12 @@ public class Client extends JFrame {
 		screen.setEditable(false);
 		screen.setBounds(10, 11, 467, 308);
 		getContentPane().add(screen);
+		
+		this.username = username;
+		this.host = hostName;
+		this.port = Integer.parseInt(port);
+	
+		connectToServer();
 	}
 
 	private void connectToServer() {

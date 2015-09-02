@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JOptionPane;
 
 import com.max.client.Client;
+import com.max.server.ChatServer;
 import com.max.window.LoginWindow;
 
 public class LoginListener implements ActionListener, KeyListener{
@@ -25,10 +26,15 @@ public class LoginListener implements ActionListener, KeyListener{
 			if (portNum > 45151 && portNum < 60000) {
 				if (!(lw.getHost().isEmpty() || lw.getPort().isEmpty() || lw.getUsername().isEmpty())) {
 					try {
-						
-						LoginWindow.getFrame().setVisible(false);
-						Client frame = new Client(lw.getHost(), lw.getPort(), lw.getUsername());
-						frame.setVisible(true);
+						if (ChatServer.create(lw.getHost(), portNum)) {
+							LoginWindow.getFrame().setVisible(false);
+							Client frame = new Client(lw.getHost(), lw.getPort(), lw.getUsername());
+							frame.setVisible(true);
+						}
+						else {
+							JOptionPane.showMessageDialog(null,
+									"Could not create server! Try Again");
+						}
 						
 					} catch (Exception e) {
 						e.printStackTrace();

@@ -2,11 +2,13 @@ package com.max.server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.BindException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+
 import com.max.client.Client;
 
 public class ChatServer {
@@ -46,11 +48,13 @@ public class ChatServer {
 				ChatServer.instance = new ChatServer(host, port);
 			}
 		} catch (UnknownHostException e) {
-			System.out.println("Host doesn't exist. Exit and retry.");
+			System.out.println("Server: host doesn't exist.");
 			return false;
-		}
-		catch (IOException e) {
-			System.out.println("Server: found server");
+		} catch (BindException e1) {
+			System.out.println("Server: can't bind to that host.");
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 		return true;
@@ -79,7 +83,7 @@ public class ChatServer {
 	
 	private void closeServer() throws IOException {
         ss.close();
-        System.out.println("Closing Server at " + ss.getInetAddress());
+        System.out.println("Server: Closing Server at " + ss.getInetAddress());
 	}
 	
 	public static void addClient(Socket client) {
@@ -95,11 +99,9 @@ public class ChatServer {
         try {
 			c.close();
 			if (instance.clients.size() < 1) {
-			    System.out.println("No clients left: closing server.");
 			    instance.closeServer();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }

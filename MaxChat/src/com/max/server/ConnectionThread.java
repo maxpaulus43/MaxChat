@@ -23,8 +23,6 @@ public class ConnectionThread implements Runnable {
 							+ client.getInetAddress());
 					ChatServer.addClient(client);			
 				}
-			} catch (IOException e) { //socket is closed 
-				System.out.println("ConnectionThread Error");
-			}
+			} catch (IOException e) {/* socket is closed */}
 	}
 }
