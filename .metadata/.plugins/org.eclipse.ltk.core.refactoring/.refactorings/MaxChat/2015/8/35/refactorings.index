@@ -7,3 +7,9 @@
 1440707778428	Rename compilation unit 'ChatThread.java'
 1440709279368	Rename type 'ListenThread'
 1440808104166	Rename field 'textFieldIP'
+1440885259520	Rename local variable 'ip'
+1440886758749	Rename type 'ClientListener'
+1440887974004	Rename type 'ClientProtocol'
+1440887995913	Move compilation unit
+1440888055865	Move compilation unit
+1440888775372	Rename local variable 'textArea'

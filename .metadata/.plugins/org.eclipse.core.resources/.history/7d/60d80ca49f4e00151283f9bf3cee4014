@@ -1,0 +1,5 @@
+package com.max.client;
+
+public class ClientListener {
+
+}

@@ -1,0 +1,35 @@
+package com.max.server;
+
+import java.io.IOException;
+import java.net.Socket;
+
+public class ConnectionListener implements Runnable {
+
+	ChatServer server;
+	String clientIP;
+	
+	private static boolean listening = false;
+	
+	public ConnectionListener(ChatServer server) {
+		this.server = server;	
+	}
+	
+	@Override
+	public void run() {
+			try {
+				listening = true;
+				while(listening) {
+					Socket client = server.accept();
+					System.out.println("ConnectionListener: Connection established with " + client.getInetAddress());
+					server.addClient(client);			
+				}
+			} catch (IOException e) { //socket is closed 
+				System.out.println("ConnectionLister Error");
+			}
+	}
+	
+	public static void stopListening() {
+		listening = false;
+	}
+
+}

@@ -1,0 +1,5 @@
+package com.max.event;
+
+public class LoginListener extends ActionListener{
+
+}

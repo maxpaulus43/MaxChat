@@ -1,0 +1,45 @@
+package com.max.client;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class ClientListener implements Runnable {
+
+	private Client client;
+	private Socket s;
+	
+	boolean connected = true;
+
+	public ClientListener(Client client, Socket s) {
+		this.client = client;
+		this.s = s;
+	}
+
+
+	@Override
+	public void run() {
+		try {
+			Scanner in = new Scanner(s.getInputStream());
+			
+			String input;
+			while(connected && ((input = in.nextLine()) != null)) {
+				client.writeToScreen(input);
+			}
+			
+			s.close();//closes the socket once disconnected.
+			System.out.println("Socket closed...");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	public void disconnect() {
+		connected = false;
+		//System.out.println("ClientListener: disconnected");
+	}
+
+}

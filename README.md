@@ -1,2 +1,2 @@
 # MaxChat
-fourth and hopefully last try at git repo stuff
+A little chat program that works with java.net sockets. A work in progress...
